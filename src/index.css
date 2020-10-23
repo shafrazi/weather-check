@@ -12,9 +12,80 @@ header {
   padding-top: 15px;
   padding-bottom: 15px;
   color: white;
+  display: grid;
+  grid-template-columns: 7fr 1fr;
+}
 
+.unit-change {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .logo {
+  text-align: center;
+}
+
+.container {
+  width: 90%;
+  margin: 20px auto;
+}
+
+.search-div {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: 20px;
+}
+
+.city-input {
+  font-size: 20px;
+  text-align: center;
+}
+
+.weather-info-container {
+  margin: 40px auto;
+  width: 90%;
+  background-color: #a2e3df;
+  padding: 20px;
+
+}
+
+.location {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  row-gap: 10px;
+}
+
+.city {
+  font-size: 25px;
+}
+
+.image {
+  text-align: center;
+}
+
+.weather-icon {
+  width: 200px;
+  height: 180px;
+}
+
+.stat-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+}
+
+.temp {
+  padding-top: 20px;
+}
+
+.temp-stat {
+  font-size: 40px;
+}
+
+.feels-like {
+  font-size: 20px;
+}
+
+.description {
   text-align: center;
 }
