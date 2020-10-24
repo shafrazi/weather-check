@@ -16,8 +16,14 @@ function WeatherInfo(props) {
       </div>
       <div className="stat-container">
         <div className="temp">
-          <p className="temp-stat">{data.temp}</p>
-          <p className="feels-like">Feels like: {data.feelsLike}</p>
+          <p className="temp-stat">
+            {data.temp}
+            {props.unitText}
+          </p>
+          <p className="feels-like">
+            Feels like: {data.feelsLike}
+            {props.unitText}
+          </p>
         </div>
         <div className="image">
           <img

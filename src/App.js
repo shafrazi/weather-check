@@ -13,6 +13,7 @@ class App extends React.Component {
       country: "",
       weatherData: "",
       isImperial: false,
+      unitText: "°C",
     };
   }
 
@@ -102,6 +103,7 @@ class App extends React.Component {
             temp: temp,
             feelsLike: feelsLike,
           },
+          unitText: "°F",
         };
       });
     } else {
@@ -115,6 +117,7 @@ class App extends React.Component {
             temp: temp,
             feelsLike: feelsLike,
           },
+          unitText: "°C",
         };
       });
     }
@@ -155,6 +158,7 @@ class App extends React.Component {
             data={this.state.weatherData}
             country={this.state.country}
             city={this.state.city}
+            unitText={this.state.unitText}
           />
         </div>
       </div>
