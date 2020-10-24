@@ -11,7 +11,7 @@ function WeatherInfo(props) {
   return (
     <div className="weather-info-container">
       <div className="location">
-        <p className="city">{props.city}</p>
+        <p className="city">{data.cityName}</p>
         <p className="country">{props.country}</p>
       </div>
       <div className="stat-container">

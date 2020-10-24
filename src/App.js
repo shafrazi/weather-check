@@ -31,11 +31,12 @@ class App extends React.Component {
       })
       .then((response) => {
         weatherData = {
-          temp: response.main.temp,
+          cityName: response.name,
+          temp: Math.round(parseFloat(response.main.temp)),
           country: response.sys.country,
           description: response.weather[0].description,
           icon: response.weather[0].icon,
-          feelsLike: response.main.feels_like,
+          feelsLike: Math.round(parseFloat(response.main.feels_like)),
         };
         city = response.name;
       })
