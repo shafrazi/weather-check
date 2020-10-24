@@ -12,15 +12,17 @@ class App extends React.Component {
       city: "London",
       country: "",
       weatherData: "",
-      temp: "",
-      weatherCondition: "",
+      isImperial: false,
     };
   }
 
   fetchData = () => {
-    const url = `https://api.openweathermap.org/data/2.5/weather?units=metric&q=${this.state.city}&appid=${API_KEY}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?units=${
+      this.state.isImperial ? "imperial" : "metric"
+    }&q=${this.state.city}&appid=${API_KEY}`;
     let weatherData = {};
     let countryData = "";
+    let city = "";
 
     fetch(url)
       .then((response) => {
@@ -28,13 +30,13 @@ class App extends React.Component {
       })
       .then((response) => {
         weatherData = {
-          cityName: response.name,
           temp: response.main.temp,
           country: response.sys.country,
           description: response.weather[0].description,
           icon: response.weather[0].icon,
           feelsLike: response.main.feels_like,
         };
+        city = response.name;
       })
       .then(() => {
         fetch(`https://restcountries.eu/rest/v2/alpha/${weatherData.country}`)
@@ -45,8 +47,8 @@ class App extends React.Component {
             countryData = response;
             this.setState({
               weatherData: weatherData,
+              city: city,
               country: countryData.name,
-              city: "",
             });
           });
       });
@@ -64,14 +66,73 @@ class App extends React.Component {
     }
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.fetchData();
-  }
+  };
+
+  switchUnits = () => {
+    this.setState((prevState) => {
+      return {
+        isImperial: !prevState.isImperial,
+      };
+    });
+  };
+
+  convertUnits = (isImperial) => {
+    function cToF(temp) {
+      const celcius = parseFloat(temp);
+      const fahrenheit = Math.round(celcius * 1.8 + 32);
+      return fahrenheit;
+    }
+
+    function fToC(temp) {
+      const fahrenheit = parseFloat(temp);
+      const celcius = Math.round((fahrenheit - 32) / 1.8);
+      return celcius;
+    }
+
+    if (isImperial) {
+      const temp = cToF(this.state.weatherData.temp);
+      const feelsLike = cToF(this.state.weatherData.feelsLike);
+
+      this.setState((prevState) => {
+        return {
+          weatherData: {
+            ...prevState.weatherData,
+            temp: temp,
+            feelsLike: feelsLike,
+          },
+        };
+      });
+    } else {
+      const temp = fToC(this.state.weatherData.temp);
+      const feelsLike = fToC(this.state.weatherData.feelsLike);
+
+      this.setState((prevState) => {
+        return {
+          weatherData: {
+            ...prevState.weatherData,
+            temp: temp,
+            feelsLike: feelsLike,
+          },
+        };
+      });
+    }
+  };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState.isImperial !== this.state.isImperial) {
+      this.convertUnits(this.state.isImperial);
+    }
+  };
 
   render() {
     return (
       <div>
-        <Header />
+        <Header
+          switchUnits={this.switchUnits}
+          isImperial={this.state.isImperial}
+        />
         <div className="container">
           <div className="search-div">
             <input
@@ -93,6 +154,7 @@ class App extends React.Component {
           <WeatherInfo
             data={this.state.weatherData}
             country={this.state.country}
+            city={this.state.city}
           />
         </div>
       </div>
